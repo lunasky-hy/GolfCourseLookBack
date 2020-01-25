@@ -19,6 +19,7 @@ export class Field extends Component {
             <div>
                 <h1>ゴルフ場設定</h1>
                 <form>
+                    <label>ShotNaviコースURL:</label>
                     <input type="text" value={this.state.value} onChange={(e) => {this.handleChange(e)}} />
                     <div id="select-field"></div>
                     <button type="button" onClick={() => { this.getFieldInfo() }}>Submit</button>
@@ -29,7 +30,9 @@ export class Field extends Component {
     }
 
     async getFieldInfo() {
-        const response = await fetch('/field?num=' + this.state.value, {
+        var text_url = this.state.value.toString();
+        var courseId = text_url.match(/\d+/)[0];
+        const response = await fetch('/field?num=' + courseId, {
             method: "GET",
             headers: {},
         });
