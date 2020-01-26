@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GolfCourseLookBack.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,10 @@ namespace GolfCourseLookBack.Controllers
     public class FieldController : ControllerBase
     {
         [HttpGet]
-        public int Get(int num)
+        public async Task<string> Get(int num)
         {
-            return num;
+            var sclient = new Scraping();
+            return await sclient.GetFieldAsync(num);
         }
     }
 }
