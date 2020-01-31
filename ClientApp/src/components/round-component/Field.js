@@ -5,13 +5,13 @@ export class Field extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { value: null, s: 0 };
+        this.state = { value: null, course: 0, btn_disable: false };
         this.handleChange = this.handleChange.bind(this);
         this.getFieldInfo = this.getFieldInfo.bind(this);
     }
 
     handleChange(event) {
-        this.setState({ value: event.target.value })
+        this.setState({ value: event.target.value, btn_disable:false })
     }
 
     render() {
@@ -19,12 +19,20 @@ export class Field extends Component {
             <div>
                 <h1>ゴルフ場設定</h1>
                 <form>
-                    <label>ShotNaviコースURL:</label>
-                    <input type="text" value={this.state.value} onChange={(e) => {this.handleChange(e)}} />
-                    <div id="select-field"></div>
-                    <button type="button" onClick={() => { this.getFieldInfo() }}>Submit</button>
+                    <label>
+                        <a href="http://shotnavi.jp/gc/">ShotNavi</a>コースURL:
+                    </label>
+                    <input type="text"
+                        value={this.state.value}
+                        onChange={(e) => { this.handleChange(e) }} />
+                    <button type="button"
+                        onClick={() => { this.getFieldInfo() }}
+                        disabled={this.state.btn_disable}
+                    >
+                        ゴルフ場検索
+                    </button>
                 </form>
-                {this.state.s}
+                <div id="select-field"></div>
             </div>
         );
     }
@@ -37,7 +45,7 @@ export class Field extends Component {
             headers: {},
         });
         const data = await response.text();
-        this.setState({ s: data });
+        this.setState({ course: data, btn_disable: true });
     }
 }
 

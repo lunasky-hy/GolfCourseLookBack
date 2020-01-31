@@ -10,7 +10,5 @@ namespace GolfCourseLookBack.Models
         public int Id { get; set; }
         public int ShotNaviId { get; set; }
         public string FieldName { get; set; }
-        public string CourseName { get; set; }
-        public string CourseURLId { get; set; }
     }
 }
