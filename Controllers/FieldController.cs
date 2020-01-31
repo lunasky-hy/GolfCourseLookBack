@@ -13,7 +13,7 @@ namespace GolfCourseLookBack.Controllers
     public class FieldController : ControllerBase
     {
         [HttpGet]
-        public async Task<string> Get(int num)
+        public async Task<dynamic> Get(int num)
         {
             var sclient = new Scraping();
             return await sclient.GetFieldAsync(num);

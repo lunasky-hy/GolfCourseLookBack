@@ -33,6 +33,7 @@ export class Field extends Component {
                     </button>
                 </form>
                 <div id="select-field"></div>
+                {this.state.course}
             </div>
         );
     }
@@ -44,8 +45,8 @@ export class Field extends Component {
             method: "GET",
             headers: {},
         });
-        const data = await response.text();
-        this.setState({ course: data, btn_disable: true });
+        const data = await response.json();
+        this.setState({ course: data.name, btn_disable: true });
     }
 }
 

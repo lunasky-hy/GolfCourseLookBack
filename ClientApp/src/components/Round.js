@@ -8,27 +8,28 @@ export class Round extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            "nowPage": 0,
-            "field": null,
-            "course": null,
+            nowPage: 0,
+            field: null,
+            course: null,
         };
-        this.const = {
-            "pages": [
-                <Field next={() => this.nextPage()} />,
-                <Course next={() => this.nextPage()} />
-            ]
-        };
-    }
-
-    nextPage() {
-        this.state.nowPage += 1;
     }
 
     render() {
         return (
             <div>
-                    {this.const["pages"][this.state["nowPage"]]}
+                <Field setF={(i) => { this.setField(i) }} />
+                <Course course={this.state.field} />
             </div>
-            );
+        );
+    }
+
+    setField(info) {
+        this.setState({
+            field: {
+                name: info["field"],
+                id: info["fieldid"],
+                course: info["course"],
+            }
+        });
     }
 }

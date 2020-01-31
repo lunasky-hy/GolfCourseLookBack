@@ -19,7 +19,7 @@ namespace GolfCourseLookBack.Tools
             client = new HttpClient();
         }
 
-        public async Task<string> GetFieldAsync(int fieldnum)
+        public async Task<dynamic> GetFieldAsync(int fieldnum)
         {
             string url = "http://shotnavi.jp/gcguide/cdata/cdata_" + fieldnum.ToString() + "_0.htm";
             var doc = await GetHtmlDocAsync(url);
@@ -34,7 +34,7 @@ namespace GolfCourseLookBack.Tools
             return await parser.ParseDocumentAsync(content);
         }
 
-        private string CreateField(IHtmlDocument doc)
+        private dynamic CreateField(IHtmlDocument doc)
         {
             var name = doc.QuerySelector(".course-title > h1").TextContent.Trim();
 
@@ -52,10 +52,27 @@ namespace GolfCourseLookBack.Tools
                                                     .ToArray();
                                         link = num[1];
                                     }
-                                    return new { Name = name.TextContent.Trim(), Link = link };
+                                    return new { name = name.TextContent.Trim(), link = link };
                                 })
                                 .ToList();
-            return courselist.ToString();
+            return new { name = name, course = courselist};
+        }
+    }
+
+    class FieldInfo
+    {
+        public string field;
+
+        public string course;
+        public FieldInfo(string field, string course)
+        {
+            this.field = field;
+            this.course = course;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
