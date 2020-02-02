@@ -5,7 +5,7 @@ export class Field extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { value: null, course: 0, btn_disable: false };
+        this.state = { value: null, course: null, btn_disable: false };
         this.handleChange = this.handleChange.bind(this);
         this.getFieldInfo = this.getFieldInfo.bind(this);
     }
@@ -17,7 +17,7 @@ export class Field extends Component {
     render() {
         return (
             <div>
-                <h1>ゴルフ場設定</h1>
+                <h3>ゴルフ場設定</h3>
                 <form>
                     <label>
                         <a href="http://shotnavi.jp/gc/">ShotNavi</a>コースURL:
@@ -32,13 +32,13 @@ export class Field extends Component {
                         ゴルフ場検索
                     </button>
                 </form>
-                <div id="select-field"></div>
-                {this.state.course}
             </div>
         );
     }
 
     async getFieldInfo() {
+        this.setState({ btn_disable: true });
+
         var text_url = this.state.value.toString();
         var courseId = text_url.match(/\d+/)[0];
         const response = await fetch('/field?num=' + courseId, {
@@ -46,7 +46,9 @@ export class Field extends Component {
             headers: {},
         });
         const data = await response.json();
-        this.setState({ course: data.name, btn_disable: true });
+        this.setState({ course: data.name });
+
+        this.props.setF(data);
     }
 }
 

@@ -10,7 +10,6 @@ export class Round extends Component {
         this.state = {
             nowPage: 0,
             field: null,
-            course: null,
         };
     }
 
@@ -24,6 +23,7 @@ export class Round extends Component {
     }
 
     setField(info) {
+        console.log(info)
         this.setState({
             field: {
                 name: info["field"],
