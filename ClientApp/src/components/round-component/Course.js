@@ -1,12 +1,15 @@
 ﻿import React, { Component } from 'react';
-import './course.css'
+import classNames from 'classnames';
+import './course.css';
 
 export class Course extends Component {
     static displayName = Course.name;
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            select: [],
+        };
     }
 
     nonData() {
@@ -18,6 +21,17 @@ export class Course extends Component {
         );
     }
 
+    handleCourse(link) {
+        var arr = this.state.select.slice();
+        if (arr.indexOf(link) == -1) {
+            arr.push(link);
+            this.setState({ select: arr });
+        } else {
+            arr.splice(arr.indexOf(link), 1);
+            this.setState({ select: arr })
+        }
+    }
+
     courseSelect() {
         return (
             <div>
@@ -25,8 +39,15 @@ export class Course extends Component {
                 <h3>コースを設定</h3>
                 <ul>
                     {this.props.course["course"].map((data) => {
+                        var arr = this.state.select.slice();
+                        var class_elem = classNames('course', {
+                            'select': arr.some((v) => { return v == data["link"]}),
+                        });
                         return (
-                            <li className="course">{data["name"]}</li>
+                            <li className={class_elem}
+                                onClick={() => this.handleCourse(data["link"])}>
+                                {data["name"]}
+                            </li>
                         );
                     })}
                 </ul>
